@@ -48,8 +48,8 @@ int main() {
 }
 void initiallize(CALENDAR* calendar) {
 	for (int i = 0; i < MAX_SIZE; i++) {
-		calendar[i].to_do = (char*)malloc(sizeof(char) * 100);
-		calendar[i].to_do[0] = '\0';
+		calendar[i].to_do = (char*)malloc(sizeof(char) * 100); //100칸의 문자 공간을 to_do 변수에 할당. 즉, 일정을 100자 이상 입력할 수 없음.
+		calendar[i].to_do[0] = '\0'; //
 	}
 }
 int ShowMenu() {
@@ -104,7 +104,7 @@ void PrintCalendar(CALENDAR* calendar, int start_day, int total_day, int cnt, in
 		for (int i = 0; i < cnt; i++) {
 			if (calendar[i].year == year && calendar[i].month == month && calendar[i].day == day) {
 				if (calendar[i].to_do[0] != '\0')
-					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10); // printf 함수로 출력할 때 글자색을 바꿔주는 함수. 중요X
 			}
 		}
 		printf("%8d", day);
