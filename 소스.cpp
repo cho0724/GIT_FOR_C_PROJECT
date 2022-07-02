@@ -35,7 +35,7 @@ int main() {
 		        //update 함수호출
 				break;
 			case 4:
-				//delete 함수호출
+				//Delete 함수호출
 				break;
 			case 5:
 				printf("┌────────────────────────────────────────────────────────┐\n");
