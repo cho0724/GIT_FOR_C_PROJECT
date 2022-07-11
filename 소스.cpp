@@ -4,7 +4,7 @@
 #include <string.h> // string header (문자열 헤더파일)
 #include <windows.h> // windows headr 중요X
 typedef struct _CALENDAR { //C 언어의 구조체 문법. year, month, day, 일정data 의 정보를 담고 있고, 구조체배열로 100칸의 공간을 할당
-	int year; 
+	int year;
 	int month;
 	int day;
 	char* to_do;
@@ -12,12 +12,13 @@ typedef struct _CALENDAR { //C 언어의 구조체 문법. year, month, day, 일
 void initiallize(CALENDAR* calendar); // 100칸의 구조체를 할당하고 그 값을 초기화 해주는 함수.
 int ShowMenu(); //메뉴를 출력해주는 함수
 void SerchCalendar(CALENDAR* calendar, int cnt); //조회 기능 함수.
+int DeleteCalendar(CALENDAR* calendar, int cnt);//삭제 기능 함수.
 int GetDayOfMonth(int year, int num);
 int GetLeafYear(int year);
 int GetDay(int year, int month);
 void PrintCalendar(CALENDAR* calendar, int, int, int year, int month); //15 ~ 18 조회 기능 함수내에서 호출하는 조회기능을 위한 부가적인 함수
 int main() {
-	int menu_number = 0; 
+	int menu_number = 0;
 	int data_cnt_index = 0;  //현재 저장된 일정 데이터의 수를 의미. 최대 100개이며 삽입시 +1올려주고, 삭제시 -1 해줌.
 	CALENDAR calendar[100]; //CALENDAR 배열 구조체 선언 (100칸)
 	initiallize(calendar);
@@ -32,10 +33,10 @@ int main() {
 				//Insert 함수호출
 				break;
 			case 3:
-		        //update 함수호출
+				//update 함수호출
 				break;
 			case 4:
-				//Delete 함수호출
+				DeleteCalendar(calendar, data_cnt_index);
 				break;
 			case 5:
 				printf("┌────────────────────────────────────────────────────────┐\n");
@@ -132,13 +133,36 @@ void SerchCalendar(CALENDAR* calendar, int cnt) {
 	}
 	printf("└────────────────────────────────────────────────────────┘\n\n");
 }
-/* 
+/*
    삽입시에 구조체 배열의 data_cnt_index 번째에 테이터를 삽입한다.
    데이터 삽입 연산이 끝나면 data_cnt_index의 값을 +1 증가.
 */
-
-/*
-   데이터 삭제시에 입력한 년,월,일의 값과 일치한 구조체를 찾고 그 구조체가 가지고 있는 to_do 변수의 첫번째 index에 '\0'을 넣어준다. 
-   그 후 data_cnt_index의 값을 -1해줌.
-   데이터가 삭제할 데이터가 없으면 해당 메시지도 출력
-*/
+int DeleteCalendar(CALENDAR* calendar, int cnt) {
+	if (cnt < 1) {
+		printf("┌────────────────────────────────────────────────────────┐\n");
+		printf("│            일정이 하나도 존재 하지 않습니다 .          │\n");
+		printf("└────────────────────────────────────────────────────────┘\n\n");
+		return 0;
+	}
+	int year, month, day;
+	printf("┌────────────────────────────────────────────────────────┐\n");
+	printf("                      년도 입력 : ");
+	scanf("%d", &year);
+	printf("                      월 입력 : ");
+	scanf("%d", &month);
+	printf("                      일 입력 : ");
+	scanf("%d", &day);
+	printf("└────────────────────────────────────────────────────────┘\n\n");
+	for (int i = 0; i < cnt; i++) {
+		if (calendar[i].year == year && calendar[i].month == month && calendar[i].day == day) {
+			rewind(stdin);
+			printf("변경할 일정을 입력 : ");
+			strcpy(calendar[i].to_do, "\0");
+			cnt = cnt - 1;
+		}
+	}
+	printf("┌────────────────────────────────────────────────────────┐\n");
+	printf("│                        삭제완료                        │\n");
+	printf("└────────────────────────────────────────────────────────┘\n\n");
+	return cnt;
+}
